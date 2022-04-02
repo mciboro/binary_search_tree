@@ -1,24 +1,26 @@
 #pragma once
 
+#include <memory>
+
 struct Node
 {
     int val;
-    Node *left;
-    Node *right;
+    std::shared_ptr<Node> left;
+    std::shared_ptr<Node> right;
 };
 
-void printAllElements(const Node *root);
+void printAllElements(const std::shared_ptr<Node> root);
 
-void printNodes(const Node *node);
+void printNodes(const std::shared_ptr<Node> node);
 
-bool checkIfPresent(const int value, const Node *root);
+bool checkIfPresent(const int value, const std::shared_ptr<Node> root);
 
-bool addElement(const int value, Node *root);
+bool addElement(const int value, std::shared_ptr<Node> root);
 
-Node* mostLeftNode(Node *node);
+std::shared_ptr<Node> mostLeftNode(std::shared_ptr<Node> node);
 
-Node* removeElement(const int value, Node *root);
+std::shared_ptr<Node> removeElement(const int value, std::shared_ptr<Node> root);
 
-void removeTree(Node *root);
+void removeTree(std::shared_ptr<Node> root);
 
-void removeNodes(Node *node);
+void removeNodes(std::shared_ptr<Node> node);

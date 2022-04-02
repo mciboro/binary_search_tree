@@ -1,12 +1,12 @@
 #include <iostream>
 #include "Node.h"
 
-void printAllElements(const Node *root)
+void printAllElements(const std::shared_ptr<Node> root)
 {
     printNodes(root);
 }
 
-void printNodes(const Node *node)
+void printNodes(const std::shared_ptr<Node> node)
 {
     std::cout << node->val << std::endl;
     if(node->left)
@@ -15,9 +15,9 @@ void printNodes(const Node *node)
         printNodes(node->right);
 }
 
-bool checkIfPresent(const int value, const Node *root)
+bool checkIfPresent(const int value, const std::shared_ptr<Node> root)
 {
-    const Node *curElement = root;
+    std::shared_ptr<Node> curElement = root;
     while(true) 
     {
         if(!curElement)
@@ -52,9 +52,9 @@ bool checkIfPresent(const int value, const Node *root)
     }
 }
 
-bool addElement(const int value, Node *root)
+bool addElement(const int value, std::shared_ptr<Node> root)
 {
-    Node *curElement = root;
+    std::shared_ptr<Node> curElement = root;
     while(true) 
     {
         if(curElement->val == value)
@@ -67,7 +67,7 @@ bool addElement(const int value, Node *root)
         {
             if(!curElement->right)
             {
-                curElement->right = new Node;
+                curElement->right = std::shared_ptr<Node>(new Node);
                 curElement->right->val = value;
                 curElement->right->left = nullptr;
                 curElement->right->right= nullptr;
@@ -81,7 +81,7 @@ bool addElement(const int value, Node *root)
         {
             if(!curElement->left)
             {
-                curElement->left = new Node;
+                curElement->left = std::shared_ptr<Node>(new Node);
                 curElement->left->val = value;
                 curElement->left->left = nullptr;
                 curElement->left->right = nullptr;
@@ -94,15 +94,15 @@ bool addElement(const int value, Node *root)
     }
 }
 
-Node* mostLeftNode(Node *node)
+std::shared_ptr<Node> mostLeftNode(std::shared_ptr<Node> node)
 {
-    Node* curElement = node;
+    std::shared_ptr<Node> curElement = node;
     while (curElement && curElement->left)
         curElement = curElement->left;
     return curElement;
 }
 
-Node* removeElement(const int value, Node *root)
+std::shared_ptr<Node> removeElement(const int value, std::shared_ptr<Node> root)
 {
     if(!root)
         return root;
@@ -113,29 +113,27 @@ Node* removeElement(const int value, Node *root)
     else {
         if(!root->left)
         {
-            Node *temp = root->right;
-            delete root;
+            std::shared_ptr<Node> temp = root->right;
             return temp;
         }
         else if(!root->right)
         {
-            Node *temp = root->left;
-            delete root;
+            std::shared_ptr<Node> temp = root->left;
             return temp;
         }
-        Node *temp = mostLeftNode(root->right);
+        std::shared_ptr<Node> temp = mostLeftNode(root->right);
         root->val = temp->val;
         root->right = removeElement(root->val, root->right);
     }
     return root;
 }
 
-void removeTree(Node *root)
+void removeTree(std::shared_ptr<Node> root)
 {
     removeNodes(root);
 }
 
-void removeNodes(Node *node)
+void removeNodes(std::shared_ptr<Node> node)
 {
     if(node->left)
         removeNodes(node->left);
@@ -143,14 +141,13 @@ void removeNodes(Node *node)
         removeNodes(node->right);
     node->left = nullptr;
     node->right = nullptr;
-    delete node;
     node = nullptr;
     
 }
 
-Node * init_root(const int value)
+std::shared_ptr<Node>  initRoot(const int value)
 {
-    Node *root = new Node;
+    std::shared_ptr<Node> root = std::shared_ptr<Node>(new Node);
     root->val = value;
     root->left = nullptr;
     root->right = nullptr;
@@ -159,7 +156,7 @@ Node * init_root(const int value)
 
 int main()
 {
-    Node *root = init_root(2023);
+    std::shared_ptr<Node> root = initRoot(2023);
     addElement(2020, root);
     addElement(2022, root);
     addElement(2025, root);
